@@ -6,6 +6,7 @@
   var REVEAL_MS = 700;
   var TRIES = 3000;                          // 条件を満たす分け方を探す回数
   var DEFAULT_ROWS = 6;                      // 最初に出しておく参加者の行数
+  var DEFAULT_AGE = '子ども', DEFAULT_SEX = '男';   // 新しい行の区分・性別の初期値
 
   var $ = function (id) { return document.getElementById(id); };
   var peopleEl = $('people'), rowTpl = $('person-row'), amountEl = $('amount'), revealEl = $('reveal');
@@ -55,8 +56,9 @@
   function addRow(p) {
     var li = rowTpl.content.firstElementChild.cloneNode(true);
     li.querySelector('.p-name').value = (p && p.name) || '';
-    li.querySelector('.p-age').value = (p && p.age) || '';
-    li.querySelector('.p-sex').value = (p && p.sex) || '';
+    // 新しい行の初期値は「子ども」「男」(保存済みの行は保存した値のまま)
+    li.querySelector('.p-age').value = p ? p.age || '' : DEFAULT_AGE;
+    li.querySelector('.p-sex').value = p ? p.sex || '' : DEFAULT_SEX;
     li.querySelector('.p-del').addEventListener('click', function () {
       li.remove();
       if (!peopleEl.children.length) addRow();          // 少なくとも 1 行は残す

@@ -4,7 +4,6 @@ window.KURURIN_APPS = [
   {
     id: 'bingo',
     name: 'ビンゴ',
-    description: 'ガラガラ演出つきのビンゴ抽選機',
     icon: 'icons/bingo.svg',
     path: 'apps/bingo/',
     status: 'published'

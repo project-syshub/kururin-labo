@@ -26,10 +26,13 @@
     var name = document.createElement('span');
     name.className = 'app-name';
     name.textContent = app.name;
-    var desc = document.createElement('span');
-    desc.className = 'app-desc';
-    desc.textContent = app.description;
-    text.append(name, desc);
+    text.append(name);
+    if (app.description) {                                  // 説明があるアプリだけ表示
+      var desc = document.createElement('span');
+      desc.className = 'app-desc';
+      desc.textContent = app.description;
+      text.append(desc);
+    }
 
     card.append(img, text);
     if (preparing) {

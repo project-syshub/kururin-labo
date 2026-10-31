@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja" data-view="auto" data-layout="pc">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ビンゴ | くるりんlaboアプリ</title>
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="css/bingo.css">
+  <link rel="stylesheet" href="css/halloween.css">
+  <script src="../../js/common.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../../">← くるりんlabo</a>
+    <span class="page-title"><span class="hw-only hw-title-mark" aria-hidden="true">🎃</span>ビンゴ<span class="hw-only hw-title-sub">HALLOWEEN</span></span>
+    <div class="view-switch" role="group" aria-label="表示モード">
+      <button type="button" data-view-set="auto" aria-pressed="true">自動</button>
+      <button type="button" data-view-set="pc" aria-pressed="false">PC</button>
+      <button type="button" data-view-set="mobile" aria-pressed="false">スマホ</button>
+    </div>
+    <button type="button" class="btn small" id="btn-settings">設定</button>
+    <button type="button" class="btn small" id="btn-fullscreen">全画面</button>
+  </header>
+
+  <!-- ハロウィンの飾り(ハロウィンのデザインのときだけ表示) -->
+  <div class="hw-only hw-sky" aria-hidden="true">
+    <div class="hw-moon"></div>
+    <svg class="hw-bat b1" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+    <svg class="hw-bat b2" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+    <svg class="hw-bat b3" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+  </div>
+
+  <main class="bingo">
+    <!-- 左: ガラガラの機械と、その下に盤面 -->
+    <section class="panel stage" aria-label="抽選">
+      <svg class="hw-only hw-web" viewBox="0 0 100 100" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M0 0L100 30M0 0L80 80M0 0L30 100"/>
+          <path d="M33 10Q27 19 26 26Q19 27 10 33"/>
+          <path d="M66 20Q53 40 53 53Q40 53 20 66"/>
+          <path d="M92 28Q74 60 72 72Q60 74 28 92"/>
+        </g>
+        <line x1="53" y1="53" x2="53" y2="80" stroke="currentColor" stroke-width="0.8"/>
+        <circle cx="53" cy="83" r="4" fill="currentColor"/>
+      </svg>
+      <svg class="hw-only hw-ghost" viewBox="0 0 60 70" aria-hidden="true">
+        <path d="M30 2C14 2 6 14 6 30V64L14 58 22 66 30 58 38 66 46 58 54 64V30C54 14 46 2 30 2Z" fill="#f7f1ff"/>
+        <ellipse cx="22" cy="28" rx="4" ry="6" fill="#2b1640"/><ellipse cx="38" cy="28" rx="4" ry="6" fill="#2b1640"/>
+        <ellipse cx="30" cy="42" rx="5" ry="4" fill="#2b1640"/>
+      </svg>
+      <div class="machine-area">
+        <svg id="machine" class="machine" viewBox="0 0 520 480" role="img" aria-label="ビンゴのガラガラ抽選器"></svg>
+      </div>
+      <div class="board" id="board" aria-label="盤面"></div>
+    </section>
+
+    <!-- 右: 今の玉と操作 -->
+    <div class="side">
+      <section class="panel now" aria-label="今の番号と操作">
+        <div class="ball" id="ball" aria-live="polite" aria-label="まだ抽選していません">
+          <span class="ball-letter" id="ball-letter"></span>
+          <span class="ball-number" id="ball-number">--</span>
+        </div>
+        <p class="remain" id="remain"></p>
+        <button type="button" class="btn primary draw" id="btn-draw">抽選する</button>
+        <div class="sub-controls">
+          <button type="button" class="btn small" id="btn-undo">1つ戻す</button>
+          <button type="button" class="btn small" id="btn-reset">リセット</button>
+        </div>
+        <div class="hw-only hw-pumpkins" aria-hidden="true">
+          <svg viewBox="0 0 80 70" class="pk1"><path d="M38 10Q40 2 46 2" stroke="#3d6b2a" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="58" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="40" cy="42" rx="20" ry="26" fill="#ff8a1f"/><path d="M24 34L32 26 34 38Z M56 34L48 26 46 38Z" fill="#3a1600"/><path d="M22 48L30 54 36 48 40 56 44 48 50 54 58 48 52 60 28 60Z" fill="#3a1600"/></svg>
+          <svg viewBox="0 0 80 70" class="pk2"><path d="M38 10Q40 2 46 2" stroke="#3d6b2a" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="58" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="40" cy="42" rx="20" ry="26" fill="#ff8a1f"/><circle cx="29" cy="34" r="5" fill="#3a1600"/><circle cx="51" cy="34" r="5" fill="#3a1600"/><path d="M26 48Q40 62 54 48Q40 54 26 48Z" fill="#3a1600"/></svg>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="popup" id="popup" role="alert" hidden>
+    <div class="popup-ball" id="popup-ball">
+      <span class="ball-letter" id="popup-letter"></span>
+      <span class="popup-number" id="popup-number"></span>
+    </div>
+    <p class="popup-hint">クリックで閉じる</p>
+  </div>
+
+  <dialog id="dialog-settings" class="dialog">
+    <form method="dialog">
+      <h2>設定</h2>
+      <label class="row"><input type="checkbox" id="set-effect"> ガラガラの演出</label>
+      <label class="row"><input type="checkbox" id="set-sound"> 効果音</label>
+      <label class="row">音量 <input type="range" id="set-volume" min="0" max="1" step="0.05"></label>
+      <label class="row">デザイン
+        <select id="set-theme">
+          <option value="halloween">ハロウィン</option>
+          <option value="normal">通常</option>
+        </select>
+      </label>
+      <div class="dialog-actions"><button class="btn primary">閉じる</button></div>
+    </form>
+  </dialog>
+
+  <script src="js/draw.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/gara.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

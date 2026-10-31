@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja" data-view="auto" data-layout="pc">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>くるりんlaboアプリ</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/home.css">
+  <script src="js/common.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="./">くるりんlabo</a>
+    <div class="view-switch" role="group" aria-label="表示モード">
+      <button type="button" data-view-set="auto" aria-pressed="true">自動</button>
+      <button type="button" data-view-set="pc" aria-pressed="false">PC</button>
+      <button type="button" data-view-set="mobile" aria-pressed="false">スマホ</button>
+    </div>
+  </header>
+
+  <main class="home">
+    <h1 class="home-title">くるりんlaboアプリ</h1>
+    <p class="home-lead">使いたいアプリを選んでください</p>
+    <ul class="app-grid" id="app-grid"></ul>
+    <p class="empty" id="empty" hidden>アプリは準備中です</p>
+  </main>
+
+  <footer class="site-footer">© NPO法人くるりんlabo</footer>
+
+  <script src="apps.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+/* ---- 全体の配置 ----
+   PC: 左に「機械+盤面」の大きなカード、右に「今の番号と操作」「出た番号」のカード。画面の高さに収める
+   スマホ: すべて縦 1 列 */
+.bingo { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 20px; max-width: 1800px; margin: 0 auto; }
+.bingo > *, .stage > * { min-width: 0; }   /* 中身の幅で列が押し広げられないように */
+html[data-layout="pc"] .bingo {
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 24vw, 380px);
+  height: calc(100vh - 64px);                 /* ヘッダーの高さを除いた画面いっぱい */
+  min-height: 640px;
+}
+
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+/* 左: 機械(残りの高さいっぱい)と、その下に盤面 */
+.stage { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+.machine-area { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.machine { width: 100%; height: 100%; max-height: 100%; }
+html[data-layout="mobile"] .machine-area { flex: none; }
+html[data-layout="mobile"] .machine { height: auto; max-width: 360px; }
+
+/* 右: 今の番号と操作(縦いっぱいのカードの中央に) */
+.side { display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+.now { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.remain { margin: 0; color: var(--color-muted); font-weight: 700; }
+
+/* 出た玉: 列の色(--c)の玉に、白いラベルの文字と白い数字 */
+.ball, .popup-ball {
+  --c: #888;
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 45%), var(--c);
+  color: #fff;
+  border: 3px solid #222;
+  line-height: 1;
+}
+.ball {
+  width: clamp(140px, 30vh, 280px);
+  box-shadow: inset -8px -10px 18px rgba(0, 0, 0, 0.25), var(--shadow);
+}
+.ball-number, .popup-number { font-weight: 800; text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3); }
+.ball-letter {
+  padding: 2px 16px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--c);
+  border: 2px solid #222;
+  font-size: clamp(1.1rem, 3vh, 1.8rem);
+  font-weight: 800;
+}
+.ball-letter:empty { display: none; }
+.ball-number { font-size: clamp(3.4rem, 13vh, 8rem); }
+/* まだ抽選していないときは白い玉 */
+.ball.blank { background: radial-gradient(circle at 35% 30%, #fff, #fbfbfb 55%, #e4e4e4); color: #111; }
+.ball.blank .ball-number { text-shadow: none; }
+.ball.pop { animation: pop 0.5s ease-out; }
+@keyframes pop {
+  0% { transform: scale(0.3); }
+  70% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.btn.draw { width: 100%; font-size: clamp(1.4rem, 3vh, 2rem); padding: 14px 24px; min-height: 64px; }
+.sub-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+
+/* 盤面(PC は高さを画面に合わせ、マスは横長でもよい。スマホは正方形) */
+.board { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(5, 1fr); gap: 6px; }
+html[data-layout="pc"] .board { height: clamp(220px, 32vh, 360px); flex: none; }
+.board-row { display: grid; grid-template-columns: 2.4em repeat(15, minmax(0, 1fr)); gap: 5px; }
+.board-label { display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; font-size: clamp(1rem, 2.6vh, 1.8rem); border: 2px solid #222; }
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  color: #777;
+  font-weight: 600;
+  font-size: clamp(0.8rem, min(1.4vw, 3vh), 1.7rem);
+}
+html[data-layout="mobile"] .cell { aspect-ratio: 1; }
+html[data-layout="mobile"] .bingo { gap: 12px; padding: 12px; }
+html[data-layout="mobile"] .panel { padding: 12px; }
+html[data-layout="mobile"] .board-label { font-size: 0.85rem; border-radius: 4px; border-width: 1px; }
+/* 出た番号: 色 + 太枠で示す */
+.cell.drawn { color: #fff; border: 3px solid #222; font-weight: 800; }
+.cell.drawn[data-letter="B"] { background: var(--ball-B); }
+.cell.drawn[data-letter="I"] { background: var(--ball-I); }
+.cell.drawn[data-letter="N"] { background: var(--ball-N); }
+.cell.drawn[data-letter="G"] { background: var(--ball-G); }
+.cell.drawn[data-letter="O"] { background: var(--ball-O); }
+.cell.latest { outline: 4px solid var(--color-accent); outline-offset: 1px; z-index: 1; }
+
+html[data-layout="mobile"] .board-row { gap: 2px; grid-template-columns: 1.8em repeat(15, minmax(0, 1fr)); }
+html[data-layout="mobile"] .cell { border-width: 1px; font-size: 0.6rem; border-radius: 3px; }
+html[data-layout="mobile"] .cell.drawn { border-width: 2px; }
+
+/* 設定ダイアログ */
+.dialog { border: 0; border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); min-width: min(90vw, 340px); }
+.dialog::backdrop { background: rgba(0, 0, 0, 0.4); }
+.dialog h2 { margin-top: 0; }
+.dialog .row { display: flex; align-items: center; gap: 10px; margin: 14px 0; font-size: 1.05rem; }
+.dialog input[type="checkbox"] { width: 22px; height: 22px; }
+.dialog input[type="range"] { flex: 1; }
+.dialog-actions { text-align: right; margin-top: 20px; }
+
+/* 出た番号のポップアップ */
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.78);
+  cursor: pointer;
+  animation: fade-in 0.25s ease-out;
+}
+.popup[hidden] { display: none; }
+.popup.closing { animation: fade-out 0.25s ease-in forwards; }
+.popup-ball {
+  --fx: 0px;
+  --fy: 0px;
+  width: min(60vh, 80vw);
+  gap: 2vh;
+  border-width: 4px;
+  box-shadow: inset -20px -24px 40px rgba(0, 0, 0, 0.25), 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+/* 最初に見せる白い玉。列の色が出るときに消える */
+.popup-ball::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #fbfbfb 50%, #c9c9c9);
+  box-shadow: inset -20px -24px 40px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+}
+.popup-ball > * { position: relative; }
+.popup-ball .ball-letter { font-size: min(7vh, 9vw); padding: 4px 32px; }
+.popup-number { font-size: min(26vh, 34vw); }
+/* 白い玉が出る → 列の色とアルファベット → 数字 の順に表示 */
+.popup-ball.pop-in { animation: pop-from 0.75s cubic-bezier(0.22, 1, 0.36, 1); }
+.popup-ball.pop-in::before { animation: white-out 0.4s ease-out 0.8s both; }
+.popup-ball.pop-in .ball-letter { animation: reveal 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3) 0.8s both; }
+.popup-ball.pop-in .popup-number { animation: reveal 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) 1.4s both; }
+@keyframes white-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes reveal {
+  0% { opacity: 0; transform: scale(0.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.popup-hint { margin: 0; color: #fff; font-weight: 700; }
+@keyframes pop-from {
+  0% { transform: translate(var(--fx), var(--fy)) scale(0.06); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(0, 0) scale(1); opacity: 1; }
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ball.pop { animation: none; }
+  .popup, .popup.closing, .popup-ball.pop-in, .popup-ball.pop-in::before,
+  .popup-ball.pop-in .ball-letter, .popup-ball.pop-in .popup-number { animation: none; }
+}

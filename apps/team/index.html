@@ -6,19 +6,45 @@
   <title>チーム分け | くるりんlaboアプリ</title>
   <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="css/team.css">
+  <link rel="stylesheet" href="../../css/halloween.css">
+  <link rel="stylesheet" href="css/halloween.css">
   <script src="../../js/common.js"></script>
 </head>
 <body>
   <header class="site-header">
     <a class="logo" href="../../">← くるりんlabo</a>
-    <span class="page-title">チーム分け</span>
+    <span class="page-title"><span class="hw-only hw-title-mark" aria-hidden="true">🎃</span>チーム分け<span class="hw-only hw-title-sub">HALLOWEEN</span></span>
     <div class="view-switch" role="group" aria-label="表示モード">
       <button type="button" data-view-set="auto" aria-pressed="true">自動</button>
       <button type="button" data-view-set="pc" aria-pressed="false">PC</button>
       <button type="button" data-view-set="mobile" aria-pressed="false">スマホ</button>
     </div>
+    <button type="button" class="btn small theme-toggle" id="btn-theme" aria-pressed="true">🎃 ハロウィン ON</button>
     <button type="button" class="btn small" id="btn-fullscreen">全画面</button>
   </header>
+
+  <!-- ハロウィンの飾り(ハロウィンのデザインのときだけ表示) -->
+  <div class="hw-only hw-sky" aria-hidden="true">
+    <div class="hw-moon"></div>
+    <svg class="hw-bat b1" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+    <svg class="hw-bat b2" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+    <svg class="hw-bat b3" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+    <svg class="hw-bat b4" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+    <svg class="hw-bat b5" viewBox="0 0 40 18"><path d="M0 10C5 0 10 0 14 6 16 2 18 2 20 6 22 2 24 2 26 6 30 0 35 0 40 10 34 8 30 10 28 14 26 11 24 11 20 16 16 11 14 11 12 14 10 10 6 8 0 10Z"/></svg>
+  </div>
+
+  <!-- ほうきで飛ぶ魔女(カードより手前を横切る) -->
+    <svg class="hw-only hw-witch" aria-hidden="true" viewBox="0 0 122 60">
+      <g fill="#0b0614">
+        <path d="M4 46L100 38 101 41 5 49Z"/>
+        <path d="M98 36Q112 32 121 27Q114 38 121 50Q110 44 98 43Z"/>
+        <path d="M42 43Q44 27 55 23Q66 27 67 41Q61 37 56 45Q50 39 42 43Z"/>
+        <circle cx="55" cy="19" r="6"/>
+        <path d="M44 15L68 13 60 11 50 -1 53 11Z"/>
+        <path d="M65 29L79 37 77 39 63 33Z"/>
+        <path d="M46 40L36 48 38 50 49 43Z"/>
+      </g>
+    </svg>
 
   <main class="team">
     <!-- 左: 入力と設定 -->
@@ -91,10 +117,62 @@
       <button type="button" class="btn primary go" id="btn-go">チームを分ける</button>
       <p class="error" id="error" role="alert"></p>
       <p class="notice" id="notice" role="status"></p>
+      <div class="hw-only hw-pumpkins" aria-hidden="true">
+        <svg viewBox="0 0 60 30" class="candy c1"><path d="M8 6L18 15 8 24ZM52 6L42 15 52 24Z" fill="#ff5fa2"/><circle cx="30" cy="15" r="12" fill="#ff5fa2"/><path d="M22 8Q30 15 22 22M30 3Q38 15 30 27M38 8Q46 15 38 22" stroke="#fff" stroke-width="2.5" fill="none"/></svg>
+        <svg viewBox="0 0 80 70" class="pk1"><path d="M38 10Q40 2 46 2" stroke="#3d6b2a" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="58" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="40" cy="42" rx="20" ry="26" fill="#ff8a1f"/><path d="M24 34L32 26 34 38Z M56 34L48 26 46 38Z" fill="#3a1600"/><path d="M22 48L30 54 36 48 40 56 44 48 50 54 58 48 52 60 28 60Z" fill="#3a1600"/></svg>
+        <svg viewBox="0 0 80 70" class="pk2"><path d="M38 10Q40 2 46 2" stroke="#3d6b2a" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="58" cy="42" rx="18" ry="24" fill="#e86a0c"/><ellipse cx="40" cy="42" rx="20" ry="26" fill="#ff8a1f"/><circle cx="29" cy="34" r="5" fill="#3a1600"/><circle cx="51" cy="34" r="5" fill="#3a1600"/><path d="M26 48Q40 62 54 48Q40 54 26 48Z" fill="#3a1600"/></svg>
+        <svg viewBox="0 0 40 46" class="candy c2"><path d="M20 2L38 44H2Z" fill="#fff4dc"/><path d="M11 23L29 23 33 33H7Z" fill="#ff8a1f"/><path d="M7 33L33 33 38 44H2Z" fill="#ffd23f"/></svg>
+      </div>
     </section>
 
     <!-- 右: 結果 -->
     <section class="panel result" aria-label="結果" aria-live="polite">
+      <svg class="hw-only hw-web" viewBox="0 0 100 100" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M0 0L100 30M0 0L80 80M0 0L30 100"/>
+          <path d="M33 10Q27 19 26 26Q19 27 10 33"/>
+          <path d="M66 20Q53 40 53 53Q40 53 20 66"/>
+          <path d="M92 28Q74 60 72 72Q60 74 28 92"/>
+        </g>
+      </svg>
+      <!-- クモの巣からぶら下がるクモ -->
+      <svg class="hw-only hw-spider" viewBox="0 0 30 80" aria-hidden="true">
+        <line x1="15" y1="0" x2="15" y2="56" stroke="rgba(230,220,255,0.55)" stroke-width="1"/>
+        <g stroke="#0b0614" stroke-width="1.8" stroke-linecap="round" fill="none">
+          <path d="M15 62L5 54M15 64L2 63M15 66L4 75M15 62L25 54M15 64L28 63M15 66L26 75"/>
+        </g>
+        <ellipse cx="15" cy="65" rx="6" ry="7" fill="#0b0614"/>
+        <circle cx="15" cy="56" r="4.2" fill="#0b0614"/>
+        <circle cx="13.4" cy="55.6" r="1.1" fill="#fff"/><circle cx="16.6" cy="55.6" r="1.1" fill="#fff"/>
+      </svg>
+      <svg class="hw-only hw-ghost" viewBox="0 0 60 70" aria-hidden="true">
+        <path d="M30 2C14 2 6 14 6 30V64L14 58 22 66 30 58 38 66 46 58 54 64V30C54 14 46 2 30 2Z" fill="#f7f1ff"/>
+        <ellipse cx="22" cy="30" rx="3.5" ry="5" fill="#2b1640"/><ellipse cx="38" cy="30" rx="3.5" ry="5" fill="#2b1640"/>
+        <path d="M23 42Q30 48 37 42" stroke="#2b1640" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="16" cy="38" rx="4" ry="2.5" fill="#ffb3c8"/><ellipse cx="44" cy="38" rx="4" ry="2.5" fill="#ffb3c8"/>
+      </svg>
+      <svg class="hw-only hw-cat" viewBox="0 0 92 92" aria-hidden="true">
+        <path class="hw-cat-tail" d="M60 80Q88 76 82 52Q79 40 86 30" stroke="#0b0614" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <ellipse cx="42" cy="70" rx="25" ry="20" fill="#0b0614"/>
+        <circle cx="40" cy="40" r="18" fill="#0b0614"/>
+        <path d="M24 32L21 12 35 25ZM56 32L59 12 45 25Z" fill="#0b0614"/>
+        <path d="M25 29L24 18 31 25ZM55 29L56 18 49 25Z" fill="#4a2a5e"/>
+        <ellipse cx="33" cy="40" rx="4.5" ry="5.5" fill="#ffd23f"/><ellipse cx="47" cy="40" rx="4.5" ry="5.5" fill="#ffd23f"/>
+        <ellipse cx="33" cy="40" rx="1.4" ry="4.4" fill="#0b0614"/><ellipse cx="47" cy="40" rx="1.4" ry="4.4" fill="#0b0614"/>
+        <path d="M38 47L42 47 40 49.5Z" fill="#ff8fb1"/>
+        <path d="M28 48L16 46M28 50L16 53M52 48L64 46M52 50L64 53" stroke="#8c78a8" stroke-width="1"/>
+      </svg>
+      <svg class="hw-only hw-mummy" viewBox="0 0 76 96" aria-hidden="true">
+        <path d="M8 52Q1 46 7 40L16 45ZM68 52Q75 46 69 40L60 45Z" fill="#efe6d2"/>
+        <rect x="14" y="6" width="48" height="86" rx="24" fill="#efe6d2"/>
+        <g stroke="#c4b596" stroke-width="2.4" fill="none" stroke-linecap="round">
+          <path d="M15 22L61 15M15 48L61 42M15 60L61 56M15 72L61 68M16 84L60 80"/>
+        </g>
+        <rect x="18" y="26" width="40" height="13" rx="6.5" fill="#2b1640"/>
+        <circle cx="30" cy="32.5" r="4.5" fill="#fff"/><circle cx="46" cy="32.5" r="5.5" fill="#fff"/>
+        <circle cx="31" cy="33.5" r="2.2" fill="#111"/><circle cx="46" cy="33.5" r="2.7" fill="#111"/>
+        <path d="M32 46Q38 50 44 46" stroke="#8a7a5c" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
       <div class="result-head">
         <h2>結果</h2>
         <div class="result-actions">

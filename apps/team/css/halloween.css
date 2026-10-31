@@ -1,0 +1,25 @@
+/* チーム分け専用のハロウィンのデザイン(共通部分は css/halloween.css) */
+
+html.theme-halloween .team { position: relative; z-index: 1; }
+/* 共通の .panel { position: relative } で、入力カードのスクロール追従が消えないように */
+html[data-layout="pc"].theme-halloween .setup { position: sticky; }
+
+/* 結果のカード: 上にクモの巣・おばけ、下に黒ねこ・ミイラが入るよう余白をとる */
+html.theme-halloween .result { padding-top: 76px; padding-bottom: 120px; }
+.result .hw-cat { left: 22px; bottom: 14px; width: 84px; }
+.result .hw-mummy { right: 26px; bottom: 12px; width: 70px; }
+
+/* チームのカード */
+html.theme-halloween .team-card { background: #2b1c45; box-shadow: 0 0 18px rgba(0, 0, 0, 0.35); }
+html.theme-halloween .team-card li { color: var(--color-text); }
+html.theme-halloween .team-card .summary { color: var(--color-muted); border-top-color: #47306b; }
+html.theme-halloween .tag { background: #3d2a5e; color: #e4d6ff; }
+
+/* 入力欄 */
+html.theme-halloween .person input, html.theme-halloween .person select,
+html.theme-halloween .stepper input { background: #1a1030; color: var(--color-text); border-color: var(--color-border); }
+html.theme-halloween .p-del:hover { background: rgba(255, 90, 90, 0.15); color: #ff8a8a; }
+html.theme-halloween .error { color: #ff8a8a; }
+html.theme-halloween .notice { color: #ffc56b; }
+
+html[data-layout="mobile"].theme-halloween .result { padding-top: 56px; padding-bottom: 20px; }

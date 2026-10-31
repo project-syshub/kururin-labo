@@ -15,6 +15,24 @@
   var conds = ['balance', 'apart', 'together'];
   var lastTeams = null, revealTimer = null;
 
+  // ---- ハロウィンのデザイン(ON/OFF をヘッダーのボタンで切り替え。初期値は ON) ----
+  var THEME_KEY = 'team.theme';
+  function halloweenOn() {
+    try { return localStorage.getItem(THEME_KEY) !== 'normal'; } catch (e) { return true; }
+  }
+  function applyTheme(on) {
+    document.documentElement.classList.toggle('theme-halloween', on);
+    var btn = $('btn-theme');
+    btn.setAttribute('aria-pressed', String(on));
+    btn.textContent = '🎃 ハロウィン ' + (on ? 'ON' : 'OFF');
+  }
+  applyTheme(halloweenOn());
+  $('btn-theme').addEventListener('click', function () {
+    var on = !document.documentElement.classList.contains('theme-halloween');
+    try { localStorage.setItem(THEME_KEY, on ? 'halloween' : 'normal'); } catch (e) { /* 保存できなくても切り替えは効く */ }
+    applyTheme(on);
+  });
+
   // ---- 保存・復元 ----
   function load() {
     try {

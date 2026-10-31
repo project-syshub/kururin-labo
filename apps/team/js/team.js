@@ -1,6 +1,5 @@
 // チーム分け: ランダムに振り分ける。条件(属性を均等に・別のチームにする人・同じチームにする人)を選べる
 (function () {
-  var KEY = 'team.state';
   var TEAM_COLORS = ['#d6342c', '#2b6cd4', '#2e9e4f', '#e07000', '#7a4cc2', '#1f8a8a', '#d6457f', '#8a5a2b'];
   var TEAM_NAMES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var REVEAL_MS = 700;
@@ -15,38 +14,8 @@
   var conds = ['balance', 'apart', 'together'];
   var lastTeams = null, revealTimer = null;
 
-  // ---- 保存・復元 ----
-  function load() {
-    try {
-      var s = JSON.parse(localStorage.getItem(KEY));
-      if (s) {
-        var list = s.people;
-        if (!list && s.names) {                       // 以前の「まとめて入力」形式の保存データを読み替える
-          list = s.names.split(/\r?\n/).map(splitLine).filter(function (p) { return p.length; }).map(function (p) {
-            var has = function (a) { return p.indexOf(a) > 0; };
-            return { name: p[0], age: has('大人') ? '大人' : has('子ども') ? '子ども' : '', sex: has('男') ? '男' : has('女') ? '女' : '' };
-          });
-        }
-        (list || []).forEach(function (p) { addRow(p); });
-        amountEl.value = s.amount || 2;
-        document.querySelector('input[name="mode"][value="' + (s.mode === 'size' ? 'size' : 'teams') + '"]').checked = true;
-        revealEl.checked = s.reveal !== false;
-        conds.forEach(function (c) { $('use-' + c).checked = !!(s.use && s.use[c]); });
-        $('apart').value = s.apart || '';
-        $('together').value = s.together || '';
-      }
-    } catch (e) { /* 保存データがなければ初期値 */ }
-  }
-  function save() {
-    var use = {};
-    conds.forEach(function (c) { use[c] = $('use-' + c).checked; });
-    try {
-      localStorage.setItem(KEY, JSON.stringify({
-        people: rows(), amount: Number(amountEl.value), mode: mode(), reveal: revealEl.checked,
-        use: use, apart: $('apart').value, together: $('together').value
-      }));
-    } catch (e) { /* 保存できなくても動作は続ける */ }
-  }
+  // 入力は保存しない(ページを再読み込みすると毎回初期状態に戻る)。以前のバージョンで保存した分は消しておく
+  try { localStorage.removeItem('team.state'); } catch (e) { /* 何もしない */ }
 
   // ---- 入力 ----
   function splitLine(line) {
@@ -56,9 +25,8 @@
   function addRow(p) {
     var li = rowTpl.content.firstElementChild.cloneNode(true);
     li.querySelector('.p-name').value = (p && p.name) || '';
-    // 新しい行の初期値は「子ども」「男」(保存済みの行は保存した値のまま)
-    li.querySelector('.p-age').value = p ? p.age || '' : DEFAULT_AGE;
-    li.querySelector('.p-sex').value = p ? p.sex || '' : DEFAULT_SEX;
+    li.querySelector('.p-age').value = (p && p.age) || DEFAULT_AGE;
+    li.querySelector('.p-sex').value = (p && p.sex) || DEFAULT_SEX;
     li.querySelector('.p-del').addEventListener('click', function () {
       li.remove();
       if (!peopleEl.children.length) addRow();          // 少なくとも 1 行は残す
@@ -103,7 +71,6 @@
     conds.forEach(function (c) { $('body-' + c).hidden = !use(c); });
     errorEl.textContent = '';
     noticeEl.textContent = '';
-    save();
   }
 
   // ---- 乱数 ----
@@ -330,7 +297,6 @@
     addRow().querySelector('.p-name').focus();
     updateInfo();
   });
-  revealEl.addEventListener('change', save);
   conds.forEach(function (c) { $('use-' + c).addEventListener('change', updateInfo); });
   document.querySelectorAll('input[name="mode"]').forEach(function (r) { r.addEventListener('change', updateInfo); });
   $('minus').addEventListener('click', function () { amountEl.value = Math.max(1, amount() - 1); updateInfo(); });
@@ -343,7 +309,6 @@
     else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
   });
 
-  load();
   while (peopleEl.children.length < DEFAULT_ROWS) addRow();
   updateInfo();
 })();

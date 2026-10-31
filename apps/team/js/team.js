@@ -32,6 +32,8 @@
         document.querySelector('input[name="mode"][value="' + (s.mode === 'size' ? 'size' : 'teams') + '"]').checked = true;
         revealEl.checked = s.reveal !== false;
         conds.forEach(function (c) { $('use-' + c).checked = !!(s.use && s.use[c]); });
+        $('bal-age').checked = !s.balance || s.balance.age !== false;
+        $('bal-sex').checked = !s.balance || s.balance.sex !== false;
         $('apart').value = s.apart || '';
         $('together').value = s.together || '';
       }
@@ -43,7 +45,8 @@
     try {
       localStorage.setItem(KEY, JSON.stringify({
         people: rows(), amount: Number(amountEl.value), mode: mode(), reveal: revealEl.checked,
-        use: use, apart: $('apart').value, together: $('together').value
+        use: use, balance: { age: $('bal-age').checked, sex: $('bal-sex').checked },
+        apart: $('apart').value, together: $('together').value
       }));
     } catch (e) { /* 保存できなくても動作は続ける */ }
   }
@@ -73,10 +76,17 @@
       return { name: li.querySelector('.p-name').value, age: li.querySelector('.p-age').value, sex: li.querySelector('.p-sex').value };
     });
   }
-  // 参加者(名前が入っている行だけ)。attrs は選んだ属性(区分・性別)
+  // 参加者(名前が入っている行だけ)。
+  // tags は表示用の属性(区分・性別)、attrs は均等にする対象としてチェックした項目だけ
   function people() {
-    return rows().map(function (r) { return { name: r.name.trim(), attrs: [r.age, r.sex].filter(Boolean) }; })
-      .filter(function (p) { return p.name; });
+    var balAge = $('bal-age').checked, balSex = $('bal-sex').checked;
+    return rows().map(function (r) {
+      return {
+        name: r.name.trim(),
+        tags: [r.age, r.sex].filter(Boolean),
+        attrs: [balAge ? r.age : '', balSex ? r.sex : ''].filter(Boolean)
+      };
+    }).filter(function (p) { return p.name; });
   }
   // 組み合わせ(1 行に 1 組)
   function groups(id) {
@@ -246,7 +256,7 @@
       members.forEach(function (m) {
         var li = document.createElement('li');
         li.textContent = m.name;
-        if (showAttr) m.attrs.forEach(function (a) {
+        if (showAttr) m.tags.forEach(function (a) {
           var tag = document.createElement('span');
           tag.className = 'tag';
           tag.textContent = a;
@@ -257,7 +267,7 @@
       card.append(h, ol);
       if (showAttr) {
         var count = {};
-        members.forEach(function (m) { m.attrs.forEach(function (a) { count[a] = (count[a] || 0) + 1; }); });
+        members.forEach(function (m) { m.tags.forEach(function (a) { count[a] = (count[a] || 0) + 1; }); });
         var sum = document.createElement('p');
         sum.className = 'summary';
         sum.textContent = Object.keys(count).sort().map(function (a) { return a + ' ' + count[a] + '人'; }).join(' / ');
@@ -332,6 +342,7 @@
   });
   revealEl.addEventListener('change', save);
   conds.forEach(function (c) { $('use-' + c).addEventListener('change', updateInfo); });
+  ['bal-age', 'bal-sex'].forEach(function (id) { $(id).addEventListener('change', updateInfo); });
   document.querySelectorAll('input[name="mode"]').forEach(function (r) { r.addEventListener('change', updateInfo); });
   $('minus').addEventListener('click', function () { amountEl.value = Math.max(1, amount() - 1); updateInfo(); });
   $('plus').addEventListener('click', function () { amountEl.value = Math.min(50, amount() + 1); updateInfo(); });

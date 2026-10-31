@@ -68,7 +68,11 @@
 
         <label class="check"><input type="checkbox" id="use-balance"> 属性が均等になるように分ける</label>
         <div class="cond-body" id="body-balance" hidden>
-          <p class="hint">参加者ごとに選んだ「区分(大人・子ども)」と「性別(男・女)」が、それぞれ各チームに均等になるように分けます。選んでいない項目は気にせず分けます。</p>
+          <div class="bal-keys" role="group" aria-label="均等にする項目">
+            <label class="check"><input type="checkbox" id="bal-age" checked> 区分(大人・子ども)</label>
+            <label class="check"><input type="checkbox" id="bal-sex" checked> 性別(男・女)</label>
+          </div>
+          <p class="hint">チェックした項目が、それぞれ各チームに均等になるように分けます(両方選ぶと両方とも均等)。</p>
         </div>
 
         <label class="check"><input type="checkbox" id="use-apart"> 別のチームにする人</label>

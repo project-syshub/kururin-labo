@@ -87,6 +87,7 @@ textarea:focus { border-color: var(--color-primary); outline: none; }
 .cond-body[hidden] { display: none; }
 .cond-body textarea { min-height: 70px; }
 .cond-body .hint { line-height: 1.6; }
+.bal-keys { display: flex; flex-wrap: wrap; gap: 0 16px; }
 
 /* 結果の属性 */
 .tag { display: inline-block; margin-left: 4px; padding: 0 6px; white-space: nowrap; border-radius: 999px; background: #eee; color: #555; font-size: 0.68em; font-weight: 700; vertical-align: middle; }

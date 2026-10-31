@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja" data-view="auto" data-layout="pc">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>チーム分け | くるりんlaboアプリ</title>
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="css/team.css">
+  <script src="../../js/common.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../../">← くるりんlabo</a>
+    <span class="page-title">チーム分け</span>
+    <div class="view-switch" role="group" aria-label="表示モード">
+      <button type="button" data-view-set="auto" aria-pressed="true">自動</button>
+      <button type="button" data-view-set="pc" aria-pressed="false">PC</button>
+      <button type="button" data-view-set="mobile" aria-pressed="false">スマホ</button>
+    </div>
+    <button type="button" class="btn small" id="btn-fullscreen">全画面</button>
+  </header>
+
+  <main class="team">
+    <!-- 左: 入力と設定 -->
+    <section class="panel setup" aria-label="参加者と設定">
+      <div class="field">
+        <span class="field-label">参加者 <span class="count" id="count">0人</span></span>
+        <div class="people-head" aria-hidden="true"><span>名前</span><span>区分</span><span>性別</span><span></span></div>
+        <ol class="people" id="people"></ol>
+        <button type="button" class="btn small add" id="btn-add">＋ 参加者を追加</button>
+      </div>
+
+      <!-- 参加者 1 人分の行(複製して使う) -->
+      <template id="person-row">
+        <li class="person">
+          <input type="text" class="p-name" placeholder="名前" aria-label="名前">
+          <select class="p-age" aria-label="区分">
+            <option value="">—</option>
+            <option value="大人">大人</option>
+            <option value="子ども">子ども</option>
+          </select>
+          <select class="p-sex" aria-label="性別">
+            <option value="">—</option>
+            <option value="男">男</option>
+            <option value="女">女</option>
+          </select>
+          <button type="button" class="p-del" aria-label="この参加者を削除">×</button>
+        </li>
+      </template>
+
+      <fieldset class="field">
+        <legend class="field-label">分け方</legend>
+        <div class="mode">
+          <label><input type="radio" name="mode" value="teams" checked> チーム数</label>
+          <label><input type="radio" name="mode" value="size"> 1チームの人数</label>
+        </div>
+        <div class="stepper">
+          <button type="button" class="btn small" id="minus" aria-label="1つ減らす">−</button>
+          <input type="number" id="amount" min="1" max="50" value="2" inputmode="numeric">
+          <span id="amount-unit">チーム</span>
+          <button type="button" class="btn small" id="plus" aria-label="1つ増やす">＋</button>
+        </div>
+        <p class="hint" id="preview"></p>
+      </fieldset>
+
+      <fieldset class="field conditions">
+        <legend class="field-label">条件(使うものだけチェック)</legend>
+
+        <label class="check"><input type="checkbox" id="use-balance"> 属性が均等になるように分ける</label>
+        <div class="cond-body" id="body-balance" hidden>
+          <p class="hint">参加者ごとに選んだ「区分(大人・子ども)」と「性別(男・女)」が、それぞれ各チームに均等になるように分けます。選んでいない項目は気にせず分けます。</p>
+        </div>
+
+        <label class="check"><input type="checkbox" id="use-apart"> 別のチームにする人</label>
+        <div class="cond-body" id="body-apart" hidden>
+          <textarea id="apart" rows="3" placeholder="1行に1組、カンマ区切り&#10;例: たろう, はなこ"></textarea>
+        </div>
+
+        <label class="check"><input type="checkbox" id="use-together"> 同じチームにする人</label>
+        <div class="cond-body" id="body-together" hidden>
+          <textarea id="together" rows="3" placeholder="1行に1組、カンマ区切り&#10;例: けんた, ゆい"></textarea>
+        </div>
+      </fieldset>
+
+      <label class="check"><input type="checkbox" id="reveal" checked> 1チームずつ発表する</label>
+
+      <button type="button" class="btn primary go" id="btn-go">チームを分ける</button>
+      <p class="error" id="error" role="alert"></p>
+      <p class="notice" id="notice" role="status"></p>
+    </section>
+
+    <!-- 右: 結果 -->
+    <section class="panel result" aria-label="結果" aria-live="polite">
+      <div class="result-head">
+        <h2>結果</h2>
+        <div class="result-actions">
+          <button type="button" class="btn small" id="btn-again" disabled>もう一度分ける</button>
+          <button type="button" class="btn small" id="btn-copy" disabled>コピー</button>
+        </div>
+      </div>
+      <div class="teams" id="teams"></div>
+      <p class="empty" id="empty">左に参加者を入力して「チームを分ける」を押してください</p>
+    </section>
+  </main>
+
+  <script src="js/team.js"></script>
+</body>
+</html>

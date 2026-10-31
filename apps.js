@@ -7,5 +7,12 @@ window.KURURIN_APPS = [
     icon: 'icons/bingo.svg',
     path: 'apps/bingo/',
     status: 'published'
+  },
+  {
+    id: 'team',
+    name: 'チーム分け',
+    icon: 'icons/team.svg',
+    path: 'apps/team/',
+    status: 'published'
   }
 ];

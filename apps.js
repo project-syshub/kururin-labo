@@ -14,5 +14,12 @@ window.KURURIN_APPS = [
     icon: 'icons/team.svg',
     path: 'apps/team/',
     status: 'published'
+  },
+  {
+    id: 'message',
+    name: 'メッセージ',
+    icon: 'icons/message.svg',
+    path: 'apps/message/',
+    status: 'published'
   }
 ];

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja" data-view="auto" data-layout="pc">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>メッセージ | くるりんlaboアプリ</title>
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="css/message.css">
+  <script src="../../js/common.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../../">← くるりんlabo</a>
+    <span class="page-title">メッセージ</span>
+    <div class="view-switch" role="group" aria-label="表示モード">
+      <button type="button" data-view-set="auto" aria-pressed="true">自動</button>
+      <button type="button" data-view-set="pc" aria-pressed="false">PC</button>
+      <button type="button" data-view-set="mobile" aria-pressed="false">スマホ</button>
+    </div>
+    <button type="button" class="btn small" id="btn-mode">管理者</button>
+  </header>
+
+  <main class="message">
+    <!-- ユーザー画面: 書いて管理者へ送る -->
+    <section class="panel" id="user-view" aria-label="メッセージを送る">
+      <h1 class="view-title">管理者へメッセージを送る</h1>
+      <label class="field">
+        <span class="field-label">ネーム</span>
+        <input type="text" id="name" maxlength="50" autocomplete="nickname" placeholder="例: たろう">
+      </label>
+      <label class="field">
+        <span class="field-label">内容 <span class="count" id="count">0 / 2000</span></span>
+        <textarea id="text" maxlength="2000" rows="10" placeholder="自由に書いてください"></textarea>
+      </label>
+      <div class="actions">
+        <button type="button" class="btn" id="btn-clear">内容をリセット</button>
+        <button type="button" class="btn primary send" id="btn-send">送信する</button>
+      </div>
+      <p class="error" id="error" role="alert"></p>
+      <p class="notice" id="notice" role="status"></p>
+    </section>
+
+    <!-- 管理者画面: 送られてきた内容の一覧 -->
+    <section class="panel" id="admin-view" aria-label="届いたメッセージ" hidden>
+      <div class="admin-head">
+        <h1 class="view-title">届いたメッセージ <span class="count" id="total"></span></h1>
+        <button type="button" class="btn small" id="btn-reload">最新にする</button>
+      </div>
+      <p class="error" id="admin-error" role="alert"></p>
+      <ol class="inbox" id="inbox"></ol>
+      <p class="empty" id="empty" hidden>まだメッセージは届いていません</p>
+    </section>
+  </main>
+
+  <!-- 管理者画面に入るためのパスワード入力 -->
+  <dialog class="pw-dialog" id="pw-dialog" aria-labelledby="pw-title">
+    <form method="dialog" id="pw-form">
+      <h2 id="pw-title">管理者パスワード</h2>
+      <input type="password" id="pw" inputmode="numeric" autocomplete="off" aria-label="パスワード">
+      <p class="error" id="pw-error" role="alert"></p>
+      <div class="actions">
+        <button type="button" class="btn" id="pw-cancel">やめる</button>
+        <button type="submit" class="btn primary" id="pw-ok">開く</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/config.js"></script>
+  <script src="js/message.js"></script>
+</body>
+</html>

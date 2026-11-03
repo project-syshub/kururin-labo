@@ -54,6 +54,37 @@ html[data-layout="pc"] .message { max-width: 1200px; padding: 24px; }
 .empty { color: var(--color-muted); text-align: center; margin: 40px 0; }
 .empty[hidden] { display: none; }
 
+/* 設定メニュー(ヘッダー右) */
+.menu { position: relative; }
+.menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10;
+  min-width: 240px;
+  padding: 12px;
+  background: var(--color-surface);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  color: var(--color-text);
+}
+.menu-panel[hidden] { display: none; }
+.menu-label { margin: 0 0 8px; font-size: 0.85rem; font-weight: 700; color: var(--color-muted); }
+.screen-switch { display: flex; border: 2px solid var(--color-primary); border-radius: 999px; overflow: hidden; }
+.screen-switch button {
+  flex: 1;
+  min-height: 44px;
+  padding: 4px 12px;
+  border: 0;
+  background: #fff;
+  color: var(--color-primary-dark);
+  font: inherit;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.screen-switch button[aria-pressed="true"] { background: var(--color-primary); color: #fff; font-weight: 700; }
+
 /* パスワード入力 */
 .pw-dialog { width: min(360px, calc(100% - 32px)); border: 0; border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
 .pw-dialog::backdrop { background: rgba(0, 0, 0, 0.4); }

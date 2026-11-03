@@ -12,7 +12,17 @@
   <header class="site-header">
     <a class="logo" href="../../">← くるりんlabo</a>
     <span class="page-title">メッセージ</span>
-    <button type="button" class="btn small" id="btn-mode">管理者</button>
+    <!-- 設定: 画面(ユーザー / 管理者)の切り替え -->
+    <div class="menu">
+      <button type="button" class="btn small" id="btn-settings" aria-expanded="false" aria-controls="settings">⚙ 設定</button>
+      <div class="menu-panel" id="settings" hidden>
+        <p class="menu-label">画面の切り替え</p>
+        <div class="screen-switch" role="group" aria-label="画面">
+          <button type="button" data-screen="user" aria-pressed="true">ユーザー画面</button>
+          <button type="button" data-screen="admin" aria-pressed="false">管理者画面</button>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main class="message">

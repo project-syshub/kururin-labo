@@ -7,7 +7,9 @@
   var $ = function (id) { return document.getElementById(id); };
   var nameEl = $('name'), textEl = $('text'), countEl = $('count');
   var errorEl = $('error'), noticeEl = $('notice'), btnSend = $('btn-send');
-  var userView = $('user-view'), adminView = $('admin-view'), btnMode = $('btn-mode');
+  var userView = $('user-view'), adminView = $('admin-view');
+  var btnSettings = $('btn-settings'), settingsEl = $('settings');
+  var screenBtns = document.querySelectorAll('[data-screen]');
   var inboxEl = $('inbox'), tableEl = $('inbox-table'), emptyEl = $('empty'), totalEl = $('total'), adminErrorEl = $('admin-error');
   var dialog = $('pw-dialog'), pwEl = $('pw'), pwErrorEl = $('pw-error'), pwOk = $('pw-ok');
   var password = null;                       // 確認できたパスワード(ページを閉じると消える)
@@ -77,7 +79,20 @@
     document.documentElement.dataset.layout = on ? 'pc' : 'mobile';
     userView.hidden = on;
     adminView.hidden = !on;
-    btnMode.textContent = on ? 'ユーザー画面へ' : '管理者';
+    screenBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String((b.dataset.screen === 'admin') === on));
+    });
+  }
+
+  // ---- 設定メニュー ----
+  function openMenu(open) {
+    settingsEl.hidden = !open;
+    btnSettings.setAttribute('aria-expanded', String(open));
+  }
+  function switchScreen(screen) {
+    openMenu(false);
+    if (screen === 'user') showAdmin(false);
+    else if (adminView.hidden) openPassword();
   }
 
   function openPassword() {
@@ -144,9 +159,15 @@
   textEl.addEventListener('input', function () { save(); updateCount(); });
   btnSend.addEventListener('click', send);
   $('btn-clear').addEventListener('click', clearText);
-  btnMode.addEventListener('click', function () {
-    if (adminView.hidden) openPassword();
-    else showAdmin(false);
+  btnSettings.addEventListener('click', function () { openMenu(settingsEl.hidden); });
+  screenBtns.forEach(function (b) {
+    b.addEventListener('click', function () { switchScreen(b.dataset.screen); });
+  });
+  document.addEventListener('click', function (ev) {       // メニューの外を押したら閉じる
+    if (!settingsEl.hidden && !ev.target.closest('.menu')) openMenu(false);
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && !settingsEl.hidden) { openMenu(false); btnSettings.focus(); }
   });
   $('pw-form').addEventListener('submit', checkPassword);
   $('pw-cancel').addEventListener('click', function () { dialog.close(); });

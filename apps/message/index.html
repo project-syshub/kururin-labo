@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="ja" data-view="auto" data-layout="pc">
+<!-- 表示切替は使わない: ユーザー画面はスマホ用、管理者画面は PC 用のレイアウトに固定(js/message.js で切り替え) -->
+<html lang="ja" data-layout="mobile">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>メッセージ | くるりんlaboアプリ</title>
   <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="css/message.css">
-  <script src="../../js/common.js"></script>
 </head>
 <body>
   <header class="site-header">
     <a class="logo" href="../../">← くるりんlabo</a>
     <span class="page-title">メッセージ</span>
-    <div class="view-switch" role="group" aria-label="表示モード">
-      <button type="button" data-view-set="auto" aria-pressed="true">自動</button>
-      <button type="button" data-view-set="pc" aria-pressed="false">PC</button>
-      <button type="button" data-view-set="mobile" aria-pressed="false">スマホ</button>
-    </div>
     <button type="button" class="btn small" id="btn-mode">管理者</button>
   </header>
 
@@ -47,7 +42,12 @@
         <button type="button" class="btn small" id="btn-reload">最新にする</button>
       </div>
       <p class="error" id="admin-error" role="alert"></p>
-      <ol class="inbox" id="inbox"></ol>
+      <div class="inbox-wrap">
+        <table class="inbox" id="inbox-table" hidden>
+          <thead><tr><th scope="col" class="c-at">送信日時</th><th scope="col" class="c-name">ネーム</th><th scope="col">内容</th></tr></thead>
+          <tbody id="inbox"></tbody>
+        </table>
+      </div>
       <p class="empty" id="empty" hidden>まだメッセージは届いていません</p>
     </section>
   </main>

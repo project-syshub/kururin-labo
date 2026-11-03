@@ -8,7 +8,7 @@
   var nameEl = $('name'), textEl = $('text'), countEl = $('count');
   var errorEl = $('error'), noticeEl = $('notice'), btnSend = $('btn-send');
   var userView = $('user-view'), adminView = $('admin-view'), btnMode = $('btn-mode');
-  var inboxEl = $('inbox'), emptyEl = $('empty'), totalEl = $('total'), adminErrorEl = $('admin-error');
+  var inboxEl = $('inbox'), tableEl = $('inbox-table'), emptyEl = $('empty'), totalEl = $('total'), adminErrorEl = $('admin-error');
   var dialog = $('pw-dialog'), pwEl = $('pw'), pwErrorEl = $('pw-error'), pwOk = $('pw-ok');
   var password = null;                       // 確認できたパスワード(ページを閉じると消える)
 
@@ -34,7 +34,8 @@
       body: JSON.stringify(payload)
     }).then(function (r) {
       if (!r.ok) throw new Error('通信に失敗しました');
-      return r.json();
+      // Apps Script 側にエラーがあると JSON ではなくエラーページが返ってくる
+      return r.json().catch(function () { throw new Error('送信先(Apps Script)がうまく動いていません。設定を確認してください'); });
     }, function () { throw new Error('通信に失敗しました。ネットワークを確認してください'); });
   }
 
@@ -71,7 +72,9 @@
   }
 
   // ---- 管理者画面 ----
+  // ユーザー画面はスマホ用、管理者画面は PC 用のレイアウトにする
   function showAdmin(on) {
+    document.documentElement.dataset.layout = on ? 'pc' : 'mobile';
     userView.hidden = on;
     adminView.hidden = !on;
     btnMode.textContent = on ? 'ユーザー画面へ' : '管理者';
@@ -117,28 +120,23 @@
     return d.getFullYear() + '/' + p(d.getMonth() + 1) + '/' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
   }
 
-  // 新しいものから順に並べる
+  // 新しいものから順に 1 行ずつ並べる(送信日時・ネーム・内容)
   function render(list) {
+    list = list || [];
     inboxEl.innerHTML = '';
-    (list || []).forEach(function (m) {
-      var li = document.createElement('li');
-      var meta = document.createElement('div');
-      meta.className = 'meta';
-      var who = document.createElement('span');
-      who.className = 'who';
-      who.textContent = m.name;
-      var at = document.createElement('span');
-      at.className = 'at';
-      at.textContent = formatDate(m.at);
-      meta.append(who, at);
-      var body = document.createElement('p');
-      body.className = 'body';
-      body.textContent = m.text;
-      li.append(meta, body);
-      inboxEl.append(li);
+    list.forEach(function (m) {
+      var tr = document.createElement('tr');
+      [['c-at', formatDate(m.at)], ['c-name', m.name], ['c-text', m.text]].forEach(function (c) {
+        var td = document.createElement('td');
+        td.className = c[0];
+        td.textContent = c[1];
+        tr.append(td);
+      });
+      inboxEl.append(tr);
     });
-    totalEl.textContent = (list || []).length + '件';
-    emptyEl.hidden = !!(list && list.length);
+    totalEl.textContent = list.length + '件';
+    tableEl.hidden = !list.length;
+    emptyEl.hidden = !!list.length;
   }
 
   // ---- 操作 ----

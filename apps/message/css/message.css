@@ -1,5 +1,7 @@
-/* ---- 全体の配置 ---- */
-.message { max-width: 760px; margin: 0 auto; padding: 20px; }
+/* ---- 全体の配置 ----
+   ユーザー画面はスマホ用(PC で開いても細い 1 列)、管理者画面は PC 用の広い表 */
+.message { max-width: 480px; margin: 0 auto; padding: 16px; }
+html[data-layout="pc"] .message { max-width: 1200px; padding: 24px; }
 
 .panel {
   display: flex;
@@ -32,8 +34,7 @@
 .field input:focus, .field textarea:focus, .pw-dialog input:focus { border-color: var(--color-primary); outline: none; }
 
 .actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
-.btn.send { min-width: 160px; }
-html[data-layout="mobile"] .actions .btn { flex: 1; }
+.actions .btn { flex: 1; }
 
 .error { margin: 0; color: #c0392b; font-weight: 700; }
 .notice { margin: 0; color: var(--color-primary-dark); font-weight: 700; }
@@ -41,12 +42,15 @@ html[data-layout="mobile"] .actions .btn { flex: 1; }
 
 /* 管理者画面 */
 .admin-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.inbox { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.inbox li { border: 2px solid var(--color-secondary); border-radius: 14px; padding: 12px 14px; }
-.inbox .meta { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
-.inbox .who { font-weight: 700; color: var(--color-primary-dark); }
-.inbox .at { color: var(--color-muted); font-size: 0.85rem; }
-.inbox .body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.inbox-wrap { overflow-x: auto; }
+.inbox { width: 100%; border-collapse: collapse; }
+.inbox[hidden] { display: none; }
+.inbox th, .inbox td { padding: 10px 12px; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+.inbox th { background: var(--color-secondary); color: var(--color-primary-dark); white-space: nowrap; }
+.inbox tbody tr:nth-child(even) { background: #fbfaf6; }
+.inbox .c-at { width: 150px; color: var(--color-muted); white-space: nowrap; }
+.inbox .c-name { width: 180px; font-weight: 700; color: var(--color-primary-dark); overflow-wrap: anywhere; }
+.inbox .c-text { white-space: pre-wrap; overflow-wrap: anywhere; }
 .empty { color: var(--color-muted); text-align: center; margin: 40px 0; }
 .empty[hidden] { display: none; }
 

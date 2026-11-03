@@ -1,0 +1,58 @@
+/* ---- 全体の配置 ---- */
+.message { max-width: 760px; margin: 0 auto; padding: 20px; }
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.panel[hidden] { display: none; }
+.view-title { margin: 0; font-size: 1.3rem; color: var(--color-primary-dark); }
+
+/* 入力 */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { display: flex; justify-content: space-between; font-weight: 700; }
+.count { color: var(--color-muted); font-size: 0.9rem; font-weight: 400; }
+.field input, .field textarea, .pw-dialog input {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+}
+.field textarea { min-height: 220px; line-height: 1.7; resize: vertical; }
+.field input:focus, .field textarea:focus, .pw-dialog input:focus { border-color: var(--color-primary); outline: none; }
+
+.actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.btn.send { min-width: 160px; }
+html[data-layout="mobile"] .actions .btn { flex: 1; }
+
+.error { margin: 0; color: #c0392b; font-weight: 700; }
+.notice { margin: 0; color: var(--color-primary-dark); font-weight: 700; }
+.error:empty, .notice:empty { display: none; }
+
+/* 管理者画面 */
+.admin-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.inbox { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.inbox li { border: 2px solid var(--color-secondary); border-radius: 14px; padding: 12px 14px; }
+.inbox .meta { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+.inbox .who { font-weight: 700; color: var(--color-primary-dark); }
+.inbox .at { color: var(--color-muted); font-size: 0.85rem; }
+.inbox .body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.empty { color: var(--color-muted); text-align: center; margin: 40px 0; }
+.empty[hidden] { display: none; }
+
+/* パスワード入力 */
+.pw-dialog { width: min(360px, calc(100% - 32px)); border: 0; border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+.pw-dialog::backdrop { background: rgba(0, 0, 0, 0.4); }
+.pw-dialog form { display: flex; flex-direction: column; gap: 12px; }
+.pw-dialog h2 { margin: 0; font-size: 1.15rem; }
+.pw-dialog input { font-size: 1.3rem; letter-spacing: 0.3em; text-align: center; }
